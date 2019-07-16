@@ -24,6 +24,13 @@ class MainActivity : AppCompatActivity() {
             view.context.startActivity(intent)
         }
 
+        // OnClickListener to Start ProfileScreen Activity with Intent
+        my_profile_button.setOnClickListener { view ->
+            val intent = Intent(view.context, ProfileScreen::class.java)
+
+            view.context.startActivity(intent)
+        }
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()

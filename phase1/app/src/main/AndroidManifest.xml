@@ -28,6 +28,11 @@
                 android:label="@string/about_alc"
                 android:theme="@style/AppTheme.NoActionBar"
         />
+        <activity
+                android:name=".ProfileScreen"
+                android:label="@string/my_profile"
+                android:theme="@style/AppTheme.NoActionBar"
+        />
     </application>
 
 </manifest>
