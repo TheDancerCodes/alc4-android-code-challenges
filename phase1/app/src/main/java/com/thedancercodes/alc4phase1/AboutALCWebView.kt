@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.http.SslError
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.app.AlertDialog
@@ -12,15 +13,12 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Transformation
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import kotlinx.android.synthetic.main.activity_about_alc.*
 
 class AboutALCWebView: AppCompatActivity() {
 
-    private val URL = "https://andela.com/"
+    private val URL = "https://andela.com/alc/"
     private var isAlreadyCreated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +33,22 @@ class AboutALCWebView: AppCompatActivity() {
 
         // Set Up the WebView Client to modify some of the functionality
         about_alc_web_view.webViewClient = object : WebViewClient() {
+
+            override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
+                // for SSLErrorHandler
+                val builder = AlertDialog.Builder(this@AboutALCWebView)
+                builder.setMessage(R.string.notification_ssl_error)
+                builder.setPositiveButton(
+                    "continue"
+                ) { dialog, which -> handler.proceed() }
+                builder.setNegativeButton("cancel") { dialog, which ->
+                    handler.cancel()
+                    finish()
+                }
+                val dialog = builder.create()
+                dialog.show()
+            }
+
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 endLoaderAnimation()

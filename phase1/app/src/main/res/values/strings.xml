@@ -4,4 +4,5 @@
     <string name="welcome_alc">Welcome to ALC 4.0</string>
     <string name="about_alc">About ALC</string>
     <string name="my_profile">My Profile</string>
+    <string name="notification_ssl_error">SSL Error! Click continue to view web page.</string>
 </resources>
