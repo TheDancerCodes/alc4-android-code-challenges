@@ -3,6 +3,7 @@
           package="com.thedancercodes.alc4phase1">
 
     <!--Add Internet permission-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
