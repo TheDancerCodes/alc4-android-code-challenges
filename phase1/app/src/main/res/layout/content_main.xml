@@ -23,12 +23,13 @@
             android:layout_marginLeft="16dp" android:id="@+id/textView"/>
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
             android:id="@+id/about_alc_button"
             android:text="@string/about_alc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/colorAccent"
             android:fontFamily="@font/proxima_nova_regular"
             android:gravity="center_vertical|center_horizontal"
             app:layout_constraintBottom_toTopOf="@+id/my_profile_button"
