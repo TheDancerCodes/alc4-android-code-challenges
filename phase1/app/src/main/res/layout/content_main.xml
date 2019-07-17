@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,6 +18,13 @@
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2" android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp" android:id="@+id/textView"/>
+
+    <!--<com.google.android.material.button.MaterialButton-->
+            <!--android:id="@+id/material_button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Material"/>-->
+
     <Button
             android:id="@+id/about_alc_button"
             android:text="@string/about_alc"
@@ -40,8 +47,8 @@
             app:layout_constraintEnd_toEndOf="@+id/about_alc_button"
             app:layout_constraintStart_toStartOf="@+id/about_alc_button"
             app:layout_constraintHorizontal_bias="0.5"/>
-    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                          android:id="@+id/guideline" app:layout_constraintGuide_begin="173dp"
-                                          android:orientation="horizontal"/>
+    <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                                android:id="@+id/guideline" app:layout_constraintGuide_begin="173dp"
+                                                android:orientation="horizontal"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
