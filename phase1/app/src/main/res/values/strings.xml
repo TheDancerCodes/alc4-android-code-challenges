@@ -5,4 +5,7 @@
     <string name="about_alc">About ALC</string>
     <string name="my_profile">My Profile</string>
     <string name="notification_ssl_error">SSL Error! Click continue to view web page.</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="username">Username:</string>
+    <string name="share">Share Profile</string>
 </resources>

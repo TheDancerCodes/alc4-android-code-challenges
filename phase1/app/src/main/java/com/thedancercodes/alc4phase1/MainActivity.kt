@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
             view.context.startActivity(intent)
         }
 
-        // OnClickListener to Start ProfileScreen Activity with Intent
+        // OnClickListener to Start ProfileActivity Activity with Intent
         my_profile_button.setOnClickListener { view ->
-            val intent = Intent(view.context, ProfileScreen::class.java)
+            val intent = Intent(view.context, ProfileActivity::class.java)
 
             view.context.startActivity(intent)
         }
