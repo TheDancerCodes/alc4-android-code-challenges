@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "480632482108",
+    "firebase_url": "https://travell3r-60198.firebaseio.com",
+    "project_id": "travell3r-60198",
+    "storage_bucket": "travell3r-60198.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480632482108:android:e1600ad94e5cf909",
+        "android_client_info": {
+          "package_name": "com.thedancercodes.travel3r"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480632482108-j3dec2b4nit9tcithgjfkqhntprrlrgc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thedancercodes.travel3r",
+            "certificate_hash": "0e09462ca164adc7f28362a8d2f6d4a0179cc96c"
+          }
+        },
+        {
+          "client_id": "480632482108-kps0eej9uqe83ram3bafcnq9osjh6ibn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkYhwD8GmrslTUL_umSdTcXlMzQrWjbMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480632482108-kps0eej9uqe83ram3bafcnq9osjh6ibn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
