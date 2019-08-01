@@ -7,6 +7,9 @@ public class TravelDeal {
     private String price;
     private String imageUrl;
 
+    // Empty Constructor
+    public TravelDeal() {}
+
     // Constructor method that enables us to create a new travel deal & set its values through the
     // constructor.
     public TravelDeal(String title, String description, String price, String imageUrl) {
