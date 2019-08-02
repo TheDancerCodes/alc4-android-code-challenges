@@ -1,17 +1,16 @@
 package com.thedancercodes.travel3r;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,5 +41,28 @@ public class ListActivity extends AppCompatActivity {
         LinearLayoutManager dealsLayoutManager =
                 new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rvDeals.setLayoutManager(dealsLayoutManager);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.list_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        //Switch statement checking the menu item that was selected
+        switch (item.getItemId()) {
+            case R.id.insert_menu:
+
+                // Intent that launches the DealActivity class
+                Intent intent = new Intent(this, DealActivity.class);
+                startActivity(intent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
