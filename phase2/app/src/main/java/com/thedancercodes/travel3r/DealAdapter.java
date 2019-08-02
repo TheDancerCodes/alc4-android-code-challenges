@@ -1,6 +1,7 @@
 package com.thedancercodes.travel3r;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder> {
@@ -160,7 +162,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         return deals.size();
     }
 
-    public class DealViewHolder extends RecyclerView.ViewHolder {
+    public class DealViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
         TextView tvTitle;
         TextView tvDescription;
@@ -172,6 +175,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvPrice = itemView.findViewById(R.id.tvPrice);
+            itemView.setOnClickListener(this);
         }
 
         // Bind the data to the layout of our row
@@ -179,6 +183,32 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle.setText(deal.getTitle());
             tvDescription.setText(deal.getDescription());
             tvPrice.setText(deal.getPrice());
+        }
+
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View view) {
+
+            // Get position of item clicked
+            int position = getAdapterPosition();
+            Log.d("Click", String.valueOf(position));
+
+            // Get the TravelDeal that was selected by its position
+            TravelDeal selectedDeal = deals.get(position);
+
+            // New Intent calling the DealActivity class
+            Intent intent = new Intent(view.getContext(), DealActivity.class);
+
+            // Pass the Travel Deal to the DealActivity
+            intent.putExtra("Deal", selectedDeal);
+
+            // Start DealActivity method from the context of the current view.
+            view.getContext().startActivity(intent);
+
         }
     }
 }

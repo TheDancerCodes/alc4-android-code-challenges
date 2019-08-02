@@ -29,10 +29,11 @@ public class FirebaseUtil {
 
             // FirebaseDatabase instance
             firebaseDatabase = FirebaseDatabase.getInstance();
-
-            // Empty ArrayList of deals
-            deals = new ArrayList<TravelDeal>();
         }
+
+        // Empty ArrayList of deals
+        // This resets the ArrayList every time the ListActivity is launched.
+        deals = new ArrayList<TravelDeal>();
 
         // Open the path that was passed as a parameter
         databaseReference = firebaseDatabase.getReference().child(ref);

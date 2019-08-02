@@ -1,6 +1,8 @@
 package com.thedancercodes.travel3r;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +23,7 @@ public class DealActivity extends AppCompatActivity {
     EditText txtTitle;
     EditText txtDescription;
     EditText txtPrice;
+    TravelDeal mDeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,29 @@ public class DealActivity extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtTitle);
         txtDescription = findViewById(R.id.txtDescription);
         txtPrice =  findViewById(R.id.txtPrice);
+
+        // Receive the Deal that was passed
+        Intent intent = getIntent();
+
+        TravelDeal deal = (TravelDeal) intent.getSerializableExtra("Deal");
+
+        // When you click the New Travel Deal Menu in the ListActivity
+        if (deal == null) {
+            deal = new TravelDeal();
+        }
+
+        // Put deal variable into the deal member
+        this.mDeal = deal;
+
+        // Set text for each text view.
+        txtTitle.setText(deal.getTitle());
+        txtDescription.setText(deal.getDescription());
+        txtPrice.setText(deal.getPrice());
+
+
     }
 
     // Write to the DB as the use clicks on the save menu
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -49,9 +70,17 @@ public class DealActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_menu:
                 saveDeal();
-                Toast.makeText(this, "Deal Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Deal Saved ✅", Toast.LENGTH_LONG).show();
                 clean();
+                backToList();
                 return true;
+
+            case R.id.delete_menu:
+                deleteDeal();
+                Toast.makeText(this, "Deal Deleted ⛔️", Toast.LENGTH_LONG).show();
+                backToList();
+                return true;
+
              default:
                  return super.onOptionsItemSelected(item);
         }
@@ -60,15 +89,41 @@ public class DealActivity extends AppCompatActivity {
     private void saveDeal() {
 
         // Read content of the 3 Edit Texts
-        String title = txtTitle.getText().toString();
-        String description = txtDescription.getText().toString();
-        String price = txtPrice.getText().toString();
+        mDeal.setTitle(txtTitle.getText().toString());
+        mDeal.setDescription(txtDescription.getText().toString());
+        mDeal.setPrice(txtPrice.getText().toString());
 
-        // Create a new TravelDeal
-        TravelDeal deal = new TravelDeal(title, description, price, "");
+        // Determine whether this deal is new or is an existing one via the ID
+        if (mDeal.getId() == null) {
 
-        // Insert a new item into the DB
-        databaseReference.push().setValue(deal);
+            // Insert a new item into the DB
+            databaseReference.push().setValue(mDeal);
+        }
+        else {
+
+            // Call the child node that has an ID of mDeal.getId()
+            databaseReference.child(mDeal.getId()).setValue(mDeal);
+        }
+    }
+
+    private void deleteDeal() {
+
+        // Check whether the deal exists
+        if (mDeal == null) {
+            Toast.makeText(this, "Please save the deal before deleting", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else {
+
+            // Get the reference of the current deal
+            databaseReference.child(mDeal.getId()).removeValue();
+        }
+    }
+
+    // Returns back to ListActivity after saving or deleting
+    private void backToList() {
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
     }
 
     // Reset edit text's content after data has been sent to DB
