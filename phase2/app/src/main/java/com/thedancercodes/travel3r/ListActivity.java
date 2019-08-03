@@ -40,6 +40,14 @@ public class ListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.list_activity_menu, menu);
+
+        MenuItem insertMenu = menu.findItem(R.id.insert_menu);
+        if (FirebaseUtil.isAdmin == true) {
+            insertMenu.setVisible(true);
+        }
+        else {
+            insertMenu.setVisible(false);
+        }
         return true;
     }
 
@@ -99,5 +107,13 @@ public class ListActivity extends AppCompatActivity {
         rvDeals.setLayoutManager(dealsLayoutManager);
 
         FirebaseUtil.attachListener();
+    }
+
+    // Use isAdmin variable to hide the menus a normal user would not need.
+    public void showMenu() {
+
+        // Use this method to inform Android that contents if the menu have changed &
+        // the menu should be redrawn
+        invalidateOptionsMenu();
     }
 }

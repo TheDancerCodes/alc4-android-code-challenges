@@ -30,8 +30,6 @@ public class DealActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
 
-        FirebaseUtil.openFbReference("traveldeals");
-
         // Create an instance of the FirebaseDatabase & DatabaseReference
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
@@ -60,6 +58,28 @@ public class DealActivity extends AppCompatActivity {
         txtPrice.setText(deal.getPrice());
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Instance of MenuInflater Object. The object that creates menus from XML menu resources.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_menu, menu);
+
+        // Restricting a normal user from editing or deleting a travel deal
+        if (FirebaseUtil.isAdmin) {
+            menu.findItem(R.id.delete_menu).setVisible(true);
+            menu.findItem(R.id.save_menu).setVisible(true);
+            enableEditTexts(true);
+        }
+        else {
+            menu.findItem(R.id.delete_menu).setVisible(false);
+            menu.findItem(R.id.save_menu).setVisible(false);
+            enableEditTexts(false);
+        }
+
+        return true;
     }
 
     // Write to the DB as the use clicks on the save menu
@@ -134,12 +154,10 @@ public class DealActivity extends AppCompatActivity {
         txtTitle.requestFocus();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Instance of MenuInflater Object. The object that creates menus from XML menu resources.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.save_menu, menu);
-        return true;
+    private void enableEditTexts(boolean isEnabled) {
+        txtTitle.setEnabled(isEnabled);
+        txtDescription.setEnabled(isEnabled);
+        txtPrice.setEnabled(isEnabled);
     }
+
 }
