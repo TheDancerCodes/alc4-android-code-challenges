@@ -1,5 +1,6 @@
 package com.thedancercodes.travel3r;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -146,8 +149,12 @@ public class DealActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     String url = taskSnapshot.getDownloadUrl().toString();
+                    String pictureName = taskSnapshot.getStorage().getPath();
 
                     mDeal.setImageUrl(url);
+                    mDeal.setImageName(pictureName);
+                    Log.d("Url: ", url);
+                    Log.d("Name: ", pictureName);
 
                     showImage(url);
 
@@ -187,6 +194,20 @@ public class DealActivity extends AppCompatActivity {
 
             // Get the reference of the current deal
             databaseReference.child(mDeal.getId()).removeValue();
+            if (mDeal.getImageName() != null && mDeal.getImageName().isEmpty() == false) {
+                StorageReference picRef = FirebaseUtil.storage.getReference().child(mDeal.getImageName());
+                picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("Delete Image", "Image Successfully Deleted");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Delete Image", e.getMessage());
+                    }
+                });
+            }
         }
     }
 
