@@ -14,6 +14,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +32,8 @@ public class FirebaseUtil {
     public static DatabaseReference databaseReference;
     public static FirebaseUtil firebaseUtil;
     public static FirebaseAuth firebaseAuth;
+    public static FirebaseStorage storage;
+    public static StorageReference storageRef;
     public static FirebaseAuth.AuthStateListener authStateListener;
     public static ArrayList<TravelDeal> deals;
     private static final int RC_SIGN_IN = 123;
@@ -75,6 +79,8 @@ public class FirebaseUtil {
                     Toast.makeText(callerActivity.getBaseContext(), "Welcome back!", Toast.LENGTH_LONG).show();
                 }
             };
+
+            connectStorage();
         }
 
         // Empty ArrayList of deals
@@ -89,8 +95,12 @@ public class FirebaseUtil {
 
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
+                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
+                //new AuthUI.IdpConfig.EmailBuilder().build(),
+                //new AuthUI.IdpConfig.GoogleBuilder().build());
+
+
 
 
 
@@ -157,6 +167,12 @@ public class FirebaseUtil {
 
     public static void detachListener() {
         firebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
+    public static void connectStorage() {
+        storage = FirebaseStorage.getInstance();
+
+        storageRef = storage.getReference().child("deals_pictures");
     }
 
 }

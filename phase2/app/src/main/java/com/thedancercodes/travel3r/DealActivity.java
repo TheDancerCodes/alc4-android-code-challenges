@@ -1,23 +1,32 @@
 package com.thedancercodes.travel3r;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class DealActivity extends AppCompatActivity {
 
     // FirebaseDatabase & DatabaseReference variables
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+
+    private static final int PICTURE_RESULT = 42;
 
     // EditText variables
     EditText txtTitle;
@@ -28,7 +37,7 @@ public class DealActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert);
+        setContentView(R.layout.activity_deal);
 
         // Create an instance of the FirebaseDatabase & DatabaseReference
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
@@ -56,8 +65,17 @@ public class DealActivity extends AppCompatActivity {
         txtTitle.setText(deal.getTitle());
         txtDescription.setText(deal.getDescription());
         txtPrice.setText(deal.getPrice());
-
-
+        Button btnImage = findViewById(R.id.btnImage);
+        btnImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpeg");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(intent.createChooser(intent,
+                        "Insert Picture"), PICTURE_RESULT);
+            }
+        });
     }
 
     @Override
@@ -103,6 +121,29 @@ public class DealActivity extends AppCompatActivity {
 
              default:
                  return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+//        String uriData = data.getStringExtra("")
+
+        // Check whether the requestCode is out PICTURE_RESULT constant
+        if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK) {
+            Uri imageUri = data.getData();
+            StorageReference ref = FirebaseUtil.storageRef.child(imageUri.getLastPathSegment());
+
+            ref.putFile(imageUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    String url = taskSnapshot.getDownloadUrl().toString();
+
+                    mDeal.setImageUrl(url);
+
+                }
+            });
         }
     }
 
