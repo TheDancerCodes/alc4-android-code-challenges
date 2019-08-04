@@ -3,6 +3,7 @@ package com.thedancercodes.travel3r;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -45,6 +46,9 @@ public class DealActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deal);
+
+        Toolbar toolbar = findViewById(R.id.deal_toolbar);
+        setSupportActionBar(toolbar);
 
         // Create an instance of the FirebaseDatabase & DatabaseReference
         firebaseDatabase = FirebaseUtil.firebaseDatabase;

@@ -5,4 +5,5 @@
     <string name="description_hint">Description</string>
     <string name="save_menu">Save</string>
     <string name="delete_deal">Delete Deal</string>
+    <string name="title_activity_test">Test</string>
 </resources>
