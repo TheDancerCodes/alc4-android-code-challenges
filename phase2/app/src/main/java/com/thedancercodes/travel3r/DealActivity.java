@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class DealActivity extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class DealActivity extends AppCompatActivity {
     EditText txtTitle;
     EditText txtDescription;
     EditText txtPrice;
+    ImageView imageView;
     TravelDeal mDeal;
 
     @Override
@@ -47,6 +51,8 @@ public class DealActivity extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtTitle);
         txtDescription = findViewById(R.id.txtDescription);
         txtPrice =  findViewById(R.id.txtPrice);
+
+        imageView = findViewById(R.id.image);
 
         // Receive the Deal that was passed
         Intent intent = getIntent();
@@ -65,6 +71,9 @@ public class DealActivity extends AppCompatActivity {
         txtTitle.setText(deal.getTitle());
         txtDescription.setText(deal.getDescription());
         txtPrice.setText(deal.getPrice());
+
+        showImage(deal.getImageUrl());
+
         Button btnImage = findViewById(R.id.btnImage);
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,8 +137,6 @@ public class DealActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        String uriData = data.getStringExtra("")
-
         // Check whether the requestCode is out PICTURE_RESULT constant
         if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
@@ -141,6 +148,8 @@ public class DealActivity extends AppCompatActivity {
                     String url = taskSnapshot.getDownloadUrl().toString();
 
                     mDeal.setImageUrl(url);
+
+                    showImage(url);
 
                 }
             });
@@ -199,6 +208,20 @@ public class DealActivity extends AppCompatActivity {
         txtTitle.setEnabled(isEnabled);
         txtDescription.setEnabled(isEnabled);
         txtPrice.setEnabled(isEnabled);
+    }
+
+    private void showImage(String url) {
+        if (url != null && url.isEmpty() == false) {
+
+            // Get screen width
+            int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+
+            Picasso.with(this)
+                    .load(url)
+                    .resize(width, width*2/3)
+                    .centerCrop()
+                    .into(imageView);
+        }
     }
 
 }
